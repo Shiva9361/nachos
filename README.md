@@ -1,7 +1,7 @@
 # Nachos-project
 Not Another Completely Heuristic Operating System
 
-This is our course-work for the OS course in HCMUS.
+This is our course-work for the OS course in IIT Tirupati
 
 Nashos version: 4.0
 
