@@ -18,20 +18,20 @@
 #include <stdio.h>
 #include <time.h>
 
-void SysHalt() { 
-		clock_t stop = clock();
-		stop = stop - kernel->currentThread->start;
-		float ans = (float) stop/CLOCKS_PER_SEC;
-		printf("%f sec\n",ans);
-		kernel->interrupt->Halt(); 
+void SysHalt() {
+    clock_t stop = clock();
+    stop = stop - kernel->currentThread->start;
+    float ans = (float)stop / CLOCKS_PER_SEC;
+    printf("%f sec\n", ans);
+    kernel->interrupt->Halt();
 }
-void SysSleep(int time){
-		IntStatus oldlevel = kernel->interrupt->SetLevel(IntOff);
-		kernel->scheduler->waitUntil(time);
-		kernel->interrupt->SetLevel(oldlevel);
+void SysSleep(int time) {
+    IntStatus oldlevel = kernel->interrupt->SetLevel(IntOff);
+    kernel->scheduler->waitUntil(time);
+    kernel->interrupt->SetLevel(oldlevel);
 }
 int SysAdd(int op1, int op2) { return op1 + op2; }
-int SysMul(int op1, int op2) {return op1 * op2; }
+int SysMul(int op1, int op2) { return op1 * op2; }
 int SysReadNum() {
     readUntilBlank();
 
@@ -140,8 +140,10 @@ char* SysReadString(int length) {
 
 void SysPrintString(char* buffer, int length) {
     for (int i = 0; i < length; i++) {
-			if (buffer[i]==' ') kernel->synchConsoleOut->PutChar('#');
-			else kernel->synchConsoleOut->PutChar(buffer[i]);
+        if (buffer[i] == ' ')
+            kernel->synchConsoleOut->PutChar('#');
+        else
+            kernel->synchConsoleOut->PutChar(buffer[i]);
     }
 }
 

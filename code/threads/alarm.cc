@@ -20,7 +20,7 @@
 //		occur at random, instead of fixed, intervals.
 //----------------------------------------------------------------------
 
-Alarm::Alarm(bool doRandom) { timer = new Timer(doRandom, this);}
+Alarm::Alarm(bool doRandom) { timer = new Timer(doRandom, this); }
 
 //----------------------------------------------------------------------
 // Alarm::CallBack
@@ -42,14 +42,13 @@ Alarm::Alarm(bool doRandom) { timer = new Timer(doRandom, this);}
 
 void Alarm::CallBack() {
     Interrupt *interrupt = kernel->interrupt;
-    MachineStatus status = interrupt->getStatus();	
+    MachineStatus status = interrupt->getStatus();
     kernel->scheduler->checkSleepList();
-	if (status != IdleMode) {
+    if (status != IdleMode) {
         interrupt->YieldOnReturn();
     }
 }
 
-void Alarm::WaitUntil(int x){
-	
-	//kernel->scheduler->Run(kernel->scheduler->FindNextToRun(),true);
+void Alarm::WaitUntil(int x) {
+    // kernel->scheduler->Run(kernel->scheduler->FindNextToRun(),true);
 }

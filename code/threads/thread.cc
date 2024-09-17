@@ -36,7 +36,7 @@ const int STACK_FENCEPOST = 0xdedbeef;
 Thread::Thread(char *threadName, bool _has_dynamic_name /*=false*/) {
     has_dynamic_name = _has_dynamic_name;
     start = clock();
-	name = threadName;
+    name = threadName;
     stackTop = NULL;
     stack = NULL;
     status = JUST_CREATED;
@@ -46,7 +46,7 @@ Thread::Thread(char *threadName, bool _has_dynamic_name /*=false*/) {
                                  // of machine registers
     }
     space = NULL;
-	sleepTime= 0;
+    sleepTime = 0;
 }
 
 //----------------------------------------------------------------------
@@ -239,9 +239,9 @@ void Thread::Sleep(bool finishing) {
     DEBUG(dbgThread, "Sleeping thread: " << name);
 
     status = BLOCKED;
-    while ((nextThread = kernel->scheduler->FindNextToRun()) == NULL){
-		kernel->interrupt->Idle();  // no one to run, wait for an interrupt
-	}
+    while ((nextThread = kernel->scheduler->FindNextToRun()) == NULL) {
+        kernel->interrupt->Idle();  // no one to run, wait for an interrupt
+    }
     // returns when it's time for us to run
     kernel->scheduler->Run(nextThread, finishing);
 }

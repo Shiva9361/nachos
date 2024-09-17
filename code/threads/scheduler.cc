@@ -31,7 +31,7 @@
 
 Scheduler::Scheduler() {
     readyList = new List<Thread *>;
-	sleepList = new List<Thread *>;
+    sleepList = new List<Thread *>;
     toBeDestroyed = NULL;
 }
 
@@ -40,7 +40,10 @@ Scheduler::Scheduler() {
 // 	De-allocate the list of ready threads.
 //----------------------------------------------------------------------
 
-Scheduler::~Scheduler() { delete readyList; delete sleepList;}
+Scheduler::~Scheduler() {
+    delete readyList;
+    delete sleepList;
+}
 
 //----------------------------------------------------------------------
 // Scheduler::ReadyToRun
@@ -165,33 +168,31 @@ void Scheduler::Print() {
     readyList->Apply(ThreadPrint);
 }
 
-void Scheduler::waitUntil(int x){
-	kernel->currentThread->sleepTime = x;
-	sleepList->Append(kernel->currentThread);
+void Scheduler::waitUntil(int x) {
+    kernel->currentThread->sleepTime = x;
+    sleepList->Append(kernel->currentThread);
     kernel->currentThread->Sleep(false);
-
 }
 
-void Scheduler::checkSleepList(){
-		ListIterator<Thread*>* itr = new ListIterator<Thread*>(sleepList);
-		Thread* c;
-		List<Thread*>* delList = new List<Thread*>();
-		while(!itr->IsDone()){
-			c = itr->Item();
-            c->sleepTime--;
-			if (c->sleepTime<=0){
-				kernel->scheduler->ReadyToRun(c);
-				delList->Append(c);
-			}
-			itr->Next();
+void Scheduler::checkSleepList() {
+    ListIterator<Thread *> *itr = new ListIterator<Thread *>(sleepList);
+    Thread *c;
+    List<Thread *> *delList = new List<Thread *>();
+    while (!itr->IsDone()) {
+        c = itr->Item();
+        c->sleepTime--;
+        if (c->sleepTime <= 0) {
+            kernel->scheduler->ReadyToRun(c);
+            delList->Append(c);
         }
-		
-		delete itr;
-		itr = new ListIterator<Thread*>(delList);
-		
-		while(!itr->IsDone()){
-			sleepList->Remove(itr->Item());
-			itr->Next();
-		}
+        itr->Next();
+    }
 
+    delete itr;
+    itr = new ListIterator<Thread *>(delList);
+
+    while (!itr->IsDone()) {
+        sleepList->Remove(itr->Item());
+        itr->Next();
+    }
 }

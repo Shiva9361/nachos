@@ -10,16 +10,16 @@
 int main() {
     int result;
 
-	/*
+    /*
     result = Mul(41, 57);
-	PrintString("Hello World ");
-	PrintNum(result);
-	PrintString("\n");
-	*/
-	PrintString("Before\n");
-	Sleep(5000000);
-	PrintString("Bye\n");
-	PrintString("Hello");	
+    PrintString("Hello World ");
+    PrintNum(result);
+    PrintString("\n");
+    */
+    PrintString("Before\n");
+    Sleep(5000000);
+    PrintString("Bye\n");
+    PrintString("Hello");
     Halt();
     /* not reached */
 }

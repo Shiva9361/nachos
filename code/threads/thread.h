@@ -83,10 +83,10 @@ class Thread {
     Thread(char *debugName,
            bool _has_dynamic_name = false);  // initialize a Thread
     ~Thread();                               // deallocate a Thread
-    int sleepTime;                                         // NOTE -- thread being deleted
+    int sleepTime;                           // NOTE -- thread being deleted
                                              // must not be running when delete
                                              // is called
-	clock_t start;
+    clock_t start;
     int processID;
     int parrentID;
     int exitStatus;

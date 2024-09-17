@@ -137,10 +137,10 @@ void handle_SC_Halt() {
     ASSERTNOTREACHED();
 }
 
-void handle_SC_Sleep(){
-	int time = kernel->machine->ReadRegister(4);
-	SysSleep(time);
-	return move_program_counter();
+void handle_SC_Sleep() {
+    int time = kernel->machine->ReadRegister(4);
+    SysSleep(time);
+    return move_program_counter();
 }
 
 void handle_SC_Mul() {
@@ -441,12 +441,12 @@ void ExceptionHandler(ExceptionType which) {
             switch (type) {
                 case SC_Halt:
                     return handle_SC_Halt();
-				case SC_Sleep:
-					return handle_SC_Sleep();
+                case SC_Sleep:
+                    return handle_SC_Sleep();
                 case SC_Add:
                     return handle_SC_Add();
-				case SC_Mul:
-					return handle_SC_Mul();
+                case SC_Mul:
+                    return handle_SC_Mul();
                 case SC_ReadNum:
                     return handle_SC_ReadNum();
                 case SC_PrintNum:
