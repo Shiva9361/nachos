@@ -7,11 +7,16 @@
 #define stdout 1
 
 int main() {
-    int pid;
-    pid = Exec("num_io");
+    int pid, i;
+    PrintString("In exec\n");
+    pid = Exec("../test/add");
     if (pid < 0) {
         Write("Exec failed: ", 14, stdout);
         PrintNum(pid);
-    } else
-        Join(pid);
+    }
+    while (1) {
+        for (i = 0; i < 3000000; i++);
+        PrintString("In exec\n");
+    }
+    Halt();
 }

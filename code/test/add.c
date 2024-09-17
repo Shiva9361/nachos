@@ -9,6 +9,7 @@
 
 int main() {
     int result;
+    int i;
 
     /*
     result = Mul(41, 57);
@@ -16,10 +17,14 @@ int main() {
     PrintNum(result);
     PrintString("\n");
     */
-    PrintString("Before\n");
-    Sleep(5000000);
-    PrintString("Bye\n");
-    PrintString("Hello");
+    // PrintString("Before\n");
+    // Sleep(5000000);
+    // PrintString("Bye\n");
+    // PrintString("Hello");
+    while (1) {
+        for (i = 0; i < 1500000; i++);
+        PrintString("In add\n");
+    }
     Halt();
     /* not reached */
 }
