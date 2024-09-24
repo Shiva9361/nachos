@@ -25,6 +25,11 @@ void SysHalt() {
     printf("%f sec\n", ans);
     kernel->interrupt->Halt();
 }
+void SysWait2(int pid) {
+    IntStatus oldlevel = kernel->interrupt->SetLevel(IntOff);
+    kernel->scheduler->waitForProcess(pid);
+    kernel->interrupt->SetLevel(oldlevel);
+}
 void SysSleep(int time) {
     IntStatus oldlevel = kernel->interrupt->SetLevel(IntOff);
     kernel->scheduler->waitUntil(time);

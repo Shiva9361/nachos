@@ -144,8 +144,8 @@ void Thread::CheckOverflow() {
 
 void Thread::Begin() {
     ASSERT(this == kernel->currentThread);
-    DEBUG(dbgThread, "Beginning thread: " << name);
-
+    DEBUG(dbgThread,
+          "Beginning thread: " << name << "With process ID:" << processID);
     kernel->scheduler->CheckToBeDestroyed();
     kernel->interrupt->Enable();
 }
@@ -207,6 +207,7 @@ void Thread::Yield() {
         kernel->scheduler->ReadyToRun(this);
         kernel->scheduler->Run(nextThread, FALSE);
     }
+    kernel->scheduler->checkWaitList(false);
     (void)kernel->interrupt->SetLevel(oldLevel);
 }
 
@@ -240,6 +241,7 @@ void Thread::Sleep(bool finishing) {
 
     status = BLOCKED;
     while ((nextThread = kernel->scheduler->FindNextToRun()) == NULL) {
+        kernel->scheduler->checkWaitList(true);
         kernel->interrupt->Idle();  // no one to run, wait for an interrupt
     }
     // returns when it's time for us to run

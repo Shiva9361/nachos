@@ -34,12 +34,15 @@ class Scheduler {
     void waitUntil(int x);
     // SelfTest for scheduler is implemented in class Thread
     void checkSleepList();
+    void checkWaitList(bool);
+    void waitForProcess(int pid);
 
    private:
     List<Thread*>* readyList;  // queue of threads that are ready to run,
     List<Thread*>* sleepList;  // but not running
-    Thread* toBeDestroyed;     // finishing thread to be destroyed
-                               // by the next thread that runs
+    List<Thread*>* waitList;
+    Thread* toBeDestroyed;  // finishing thread to be destroyed
+                            // by the next thread that runs
 };
 
 #endif  // SCHEDULER_H

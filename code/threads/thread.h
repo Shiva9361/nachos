@@ -84,7 +84,7 @@ class Thread {
            bool _has_dynamic_name = false);  // initialize a Thread
     ~Thread();                               // deallocate a Thread
     int sleepTime;                           // NOTE -- thread being deleted
-                                             // must not be running when delete
+    int waitID;                              // must not be running when delete
                                              // is called
     clock_t start;
     int processID;

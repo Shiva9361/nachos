@@ -8,4 +8,5 @@ int main() {
         PrintChar((char)i);
         PrintChar('\n');
     }
+    Sleep(20000000);
 }

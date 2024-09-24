@@ -50,6 +50,7 @@
 #define SC_GetPid 54
 #define SC_Mul 55
 #define SC_Sleep 56
+#define SC_Wait2 57
 #ifndef IN_ASM
 
 /* The system call interface.  These are the operations the Nachos
@@ -71,6 +72,8 @@ void Halt();
 
 int Add(int op1, int op2);
 int Mul(int, int);
+
+void Wait2(int);
 
 void Sleep(int);
 

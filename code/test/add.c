@@ -17,14 +17,13 @@ int main() {
     PrintNum(result);
     PrintString("\n");
     */
-    // PrintString("Before\n");
-    // Sleep(5000000);
-    // PrintString("Bye\n");
+    // int pid = Exec("../test/test_syscall");
+    PrintString("Before\n");
+
+    PrintString("Bye\n");
     // PrintString("Hello");
-    while (1) {
-        for (i = 0; i < 1500000; i++);
-        PrintString("In add\n");
-    }
-    Halt();
+    PrintString("Byeeeeeeeee\n");
+    for (i = 0; i < 1500000; i++);
+    PrintString("Byeeee from child\n");
     /* not reached */
 }

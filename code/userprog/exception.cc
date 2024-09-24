@@ -143,6 +143,12 @@ void handle_SC_Sleep() {
     return move_program_counter();
 }
 
+void handle_SC_Wait2() {
+    int pid = kernel->machine->ReadRegister(4);
+    SysWait2(pid);
+    return move_program_counter();
+}
+
 void handle_SC_Mul() {
     DEBUG(dbgSys, "Mul " << kernel->machine->ReadRegister(4) << " * "
                          << kernel->machine->ReadRegister(5) << "\n");
@@ -441,6 +447,8 @@ void ExceptionHandler(ExceptionType which) {
             switch (type) {
                 case SC_Halt:
                     return handle_SC_Halt();
+                case SC_Wait2:
+                    return handle_SC_Wait2();
                 case SC_Sleep:
                     return handle_SC_Sleep();
                 case SC_Add:

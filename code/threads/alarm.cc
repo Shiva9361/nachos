@@ -44,6 +44,7 @@ void Alarm::CallBack() {
     Interrupt *interrupt = kernel->interrupt;
     MachineStatus status = interrupt->getStatus();
     kernel->scheduler->checkSleepList();
+    kernel->scheduler->checkWaitList(false);
     if (status != IdleMode) {
         interrupt->YieldOnReturn();
     }

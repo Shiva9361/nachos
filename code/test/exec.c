@@ -14,9 +14,9 @@ int main() {
         Write("Exec failed: ", 14, stdout);
         PrintNum(pid);
     }
-    while (1) {
-        for (i = 0; i < 3000000; i++);
-        PrintString("In exec\n");
-    }
-    Halt();
+    PrintString("In exec\n");
+    // Sleep(2000000);
+    Wait2(pid);
+    Sleep(2000000);
+    PrintString("Done\n");
 }

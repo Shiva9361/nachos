@@ -32,6 +32,7 @@
 Scheduler::Scheduler() {
     readyList = new List<Thread *>;
     sleepList = new List<Thread *>;
+    waitList = new List<Thread *>;
     toBeDestroyed = NULL;
 }
 
@@ -43,6 +44,7 @@ Scheduler::Scheduler() {
 Scheduler::~Scheduler() {
     delete readyList;
     delete sleepList;
+    delete waitList;
 }
 
 //----------------------------------------------------------------------
@@ -164,13 +166,24 @@ void Scheduler::CheckToBeDestroyed() {
 //	the ready list.  For debugging.
 //----------------------------------------------------------------------
 void Scheduler::Print() {
-    cout << "Ready list contents:\n";
+    cout << "Wait list contents:";
+    waitList->Apply(ThreadPrint);
+    cout << "Sleep list contents:";
+    sleepList->Apply(ThreadPrint);
+    cout << "Ready list contents:";
     readyList->Apply(ThreadPrint);
+    cout << endl;
 }
 
 void Scheduler::waitUntil(int x) {
     kernel->currentThread->sleepTime = x;
     sleepList->Append(kernel->currentThread);
+    kernel->currentThread->Sleep(false);
+}
+
+void Scheduler::waitForProcess(int pid) {
+    kernel->currentThread->waitID = pid;
+    waitList->Append(kernel->currentThread);
     kernel->currentThread->Sleep(false);
 }
 
@@ -195,4 +208,43 @@ void Scheduler::checkSleepList() {
         sleepList->Remove(itr->Item());
         itr->Next();
     }
+}
+
+bool idIn(int pid, List<Thread *> *list) {
+    ListIterator<Thread *> *itr = new ListIterator<Thread *>(list);
+    Thread *c;
+    while (!itr->IsDone()) {
+        c = itr->Item();
+        if (c->processID == pid) return true;
+        itr->Next();
+    }
+    return false;
+}
+
+void Scheduler::checkWaitList(bool exiting) {
+    // cerr << "PID:" << kernel->currentThread->processID << endl;
+    ListIterator<Thread *> *itr = new ListIterator<Thread *>(waitList);
+    Thread *c;
+    List<Thread *> *delList = new List<Thread *>();
+    while (!itr->IsDone()) {
+        c = itr->Item();
+
+        if ((exiting &&
+             !(idIn(c->waitID, readyList) || idIn(c->waitID, sleepList))) ||
+            (!exiting &&
+             !(idIn(c->waitID, readyList) || idIn(c->waitID, sleepList) ||
+               kernel->currentThread->processID == c->waitID))) {
+            kernel->scheduler->ReadyToRun(c);
+            delList->Append(c);
+        }
+        itr->Next();
+    }
+    delete itr;
+    itr = new ListIterator<Thread *>(delList);
+    while (!itr->IsDone()) {
+        waitList->Remove(itr->Item());
+        itr->Next();
+    }
+    delete delList;
+    delete itr;
 }
