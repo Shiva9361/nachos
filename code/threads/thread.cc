@@ -33,8 +33,10 @@ const int STACK_FENCEPOST = 0xdedbeef;
 //	"threadName" is an arbitrary string, useful for debugging.
 //----------------------------------------------------------------------
 
-Thread::Thread(char *threadName, bool _has_dynamic_name /*=false*/) {
+Thread::Thread(char *threadName, bool _has_dynamic_name /*=false*/,
+               int _priority) {
     has_dynamic_name = _has_dynamic_name;
+    priority = _priority;
     start = clock();
     name = threadName;
     stackTop = NULL;

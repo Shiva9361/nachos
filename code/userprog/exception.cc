@@ -341,6 +341,27 @@ void handle_SC_Exec() {
     return move_program_counter();
 }
 
+void handle_SC_ExecP() {
+    int virtAddr;
+    virtAddr = kernel->machine->ReadRegister(
+        4);  // doc dia chi ten chuong trinh tu thanh ghi r4
+    int priority = kernel->machine->ReadRegister(5);
+    char* name;
+    name = stringUser2System(virtAddr);  // Lay ten chuong trinh, nap vao kernel
+    if (name == NULL) {
+        DEBUG(dbgSys, "\n Not enough memory in System");
+        ASSERT(false);
+        kernel->machine->WriteRegister(2, -1);
+        return move_program_counter();
+    }
+
+    kernel->machine->WriteRegister(2, SysExecP(name, priority));
+    // DO NOT DELETE NAME, THE THEARD WILL DELETE IT LATER
+    // delete[] name;
+
+    return move_program_counter();
+}
+
 /**
  * @brief handle System Call Join
  * @param id: thread id (get from R4)
@@ -455,6 +476,8 @@ void ExceptionHandler(ExceptionType which) {
                     return handle_SC_Add();
                 case SC_Mul:
                     return handle_SC_Mul();
+                case SC_ExecP:
+                    return handle_SC_ExecP();
                 case SC_ReadNum:
                     return handle_SC_ReadNum();
                 case SC_PrintNum:

@@ -18,6 +18,7 @@ class PTable {
     ~PTable();
     int ExecUpdate(char* name);
     int ExitUpdate(int ec);
+    int ExecPUpdate(char* name, int priority);
     int JoinUpdate(int id);
     int GetFreeSlot();
     bool IsExist(int pid);

@@ -12,10 +12,19 @@
 #include "copyright.h"
 #include "list.h"
 #include "thread.h"
+#include <queue>
+#include <vector>
 
 // The following class defines the scheduler/dispatcher abstraction --
 // the data structures and operations needed to keep track of which
 // thread is running, and which threads are ready but not running.
+
+class PriorityThread {
+   public:
+    bool operator()(Thread*& t1, Thread*& t2) {
+        return t1->priority < t2->priority;
+    }
+};
 
 class Scheduler {
    public:
@@ -39,6 +48,7 @@ class Scheduler {
 
    private:
     List<Thread*>* readyList;  // queue of threads that are ready to run,
+    priority_queue<Thread*, vector<Thread*>, PriorityThread> readyQueue;
     List<Thread*>* sleepList;  // but not running
     List<Thread*>* waitList;
     Thread* toBeDestroyed;  // finishing thread to be destroyed

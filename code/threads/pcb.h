@@ -21,6 +21,7 @@ class PCB {
     ~PCB();
 
     int Exec(char *filename, int pid);
+    int ExecP(char *filename, int pid, int priority);
     int GetID();
     int GetNumWait();
 

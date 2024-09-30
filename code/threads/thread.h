@@ -40,7 +40,9 @@
 #include "copyright.h"
 #include "utility.h"
 #include "sysdep.h"
-
+// max and min present in utility.h are not needed by us
+#undef max
+#undef min
 #include "machine.h"
 #include "addrspace.h"
 #include <time.h>
@@ -80,12 +82,13 @@ class Thread {
     bool has_dynamic_name;  // true if the thread name is dynamically allocated
 
    public:
-    Thread(char *debugName,
-           bool _has_dynamic_name = false);  // initialize a Thread
-    ~Thread();                               // deallocate a Thread
-    int sleepTime;                           // NOTE -- thread being deleted
-    int waitID;                              // must not be running when delete
-                                             // is called
+    Thread(char *debugName, bool _has_dynamic_name = false,
+           int priority = 10);  // initialize a Thread
+    ~Thread();                  // deallocate a Thread
+    int sleepTime;              // NOTE -- thread being deleted
+    int waitID;                 // must not be running when delete
+                                // is called
+    int priority;
     clock_t start;
     int processID;
     int parrentID;

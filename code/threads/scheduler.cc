@@ -22,6 +22,7 @@
 #include "debug.h"
 #include "scheduler.h"
 #include "main.h"
+#include <queue>
 
 //----------------------------------------------------------------------
 // Scheduler::Scheduler
@@ -60,6 +61,7 @@ void Scheduler::ReadyToRun(Thread *thread) {
     DEBUG(dbgThread, "Putting thread on ready list: " << thread->getName());
     thread->setStatus(READY);
     readyList->Append(thread);
+    readyQueue.push(thread);
 }
 
 //----------------------------------------------------------------------
@@ -76,7 +78,10 @@ Thread *Scheduler::FindNextToRun() {
     if (readyList->IsEmpty()) {
         return NULL;
     } else {
-        return readyList->RemoveFront();
+        readyList->RemoveFront();
+        Thread *t = readyQueue.top();
+        readyQueue.pop();
+        return t;
     }
 }
 
@@ -118,8 +123,10 @@ void Scheduler::Run(Thread *nextThread, bool finishing) {
     kernel->currentThread = nextThread;  // switch to the next thread
     nextThread->setStatus(RUNNING);      // nextThread is now running
 
-    DEBUG(dbgThread, "Switching from: " << oldThread->getName()
-                                        << " to: " << nextThread->getName());
+    DEBUG(dbgThread,
+          "Switching from: " << oldThread->getName()
+                             << " to: " << nextThread->getName()
+                             << "With Priority: " << nextThread->priority);
 
     // This is a machine-dependent assembly language routine defined
     // in switch.s.  You may have to think
@@ -230,10 +237,12 @@ void Scheduler::checkWaitList(bool exiting) {
         c = itr->Item();
 
         if ((exiting &&
-             !(idIn(c->waitID, readyList) || idIn(c->waitID, sleepList))) ||
+             !(idIn(c->waitID, readyList) || idIn(c->waitID, sleepList) ||
+               idIn(c->waitID, waitList))) ||
             (!exiting &&
              !(idIn(c->waitID, readyList) || idIn(c->waitID, sleepList) ||
-               kernel->currentThread->processID == c->waitID))) {
+               kernel->currentThread->processID == c->waitID ||
+               idIn(c->waitID, waitList)))) {
             kernel->scheduler->ReadyToRun(c);
             delList->Append(c);
         }
