@@ -24,6 +24,8 @@ int main() {
     // PrintString("Hello");
     PrintString("Byeeeeeeeee\n");
     for (i = 0; i < 1500000; i++);
+    // Sleep(100000);
     PrintString("Byeeee from child\n");
+    Exit(0);
     /* not reached */
 }
