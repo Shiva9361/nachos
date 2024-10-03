@@ -339,11 +339,13 @@ void AddrSpace::AddPage(unsigned int vaddr) {
         (WordToHost(noffH.noffMagic) == NOFFMAGIC))
         SwapHeader(&noffH);
     ASSERT(noffH.noffMagic == NOFFMAGIC);
-    kernel->addrLock->P();
 
-    executable->ReadAt(
-        &(kernel->machine->mainMemory[noffH.initData.virtualAddr]) +
-            (pageTable[vpn].physicalPage * PageSize),
-        PageSize, noffH.initData.inFileAddr + (vpn * PageSize));
-    cout << "Added page" << vpn << endl;
+    executable->ReadAt(&(kernel->machine->mainMemory[noffH.code.virtualAddr]) +
+                           (pageTable[vpn].physicalPage * PageSize),
+                       PageSize, noffH.initData.inFileAddr + (vpn * PageSize));
+    executable->ReadAt(&(kernel->machine->mainMemory[noffH.code.virtualAddr]) +
+                           (pageTable[vpn].physicalPage * PageSize),
+                       PageSize, noffH.code.inFileAddr + (vpn * PageSize));
+
+    cout << "Added page: " << vpn << endl;
 }

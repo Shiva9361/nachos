@@ -265,7 +265,6 @@ int SysWait(char* name) {
 }
 
 int SysSignal(char* name) {
-    return 0;
     int res = kernel->semTab->Signal(name);
 
     if (res == -1) {
