@@ -453,7 +453,13 @@ void ExceptionHandler(ExceptionType which) {
             kernel->interrupt->setStatus(SystemMode);
             DEBUG(dbgSys, "Switch to system mode\n");
             break;
-        case PageFaultException:
+        case PageFaultException: {
+            cout << "Page Fault Occured" << endl;
+            int vaddr = kernel->machine->ReadRegister(39);
+            kernel->currentThread->space->AddPage(vaddr);
+            return;
+            // kernel->interrupt->setStatus(SystemMode);
+        }
         case ReadOnlyException:
         case BusErrorException:
         case AddressErrorException:
