@@ -31,6 +31,7 @@ class AddrSpace {
 
     void SaveState();     // Save/restore address space-specific
     void RestoreState();  // info on a context switch
+    void AddPage(unsigned int addr);
 
     // Translate virtual address _vaddr_
     // to physical address _paddr_. _mode_
@@ -38,6 +39,7 @@ class AddrSpace {
     ExceptionType Translate(unsigned int vaddr, unsigned int *paddr, int mode);
     // void InitRegisters();
    private:
+    char *file;
     TranslationEntry *pageTable;  // Assume linear page table translation
                                   // for now!
     unsigned int numPages;        // Number of pages in the virtual
