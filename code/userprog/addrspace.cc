@@ -149,8 +149,8 @@ AddrSpace::AddrSpace(char *fileName) {
     pageTable = new TranslationEntry[numPages];
     for (i = 0; i < numPages; i++) {
         pageTable[i].virtualPage = i;  // for now, virtual page # = phys page #
-        pageTable[i].physicalPage = kernel->gPhysPageBitMap->FindAndSet();
-        // cerr << pageTable[i].physicalPage << endl;
+        // pageTable[i].physicalPage = kernel->gPhysPageBitMap->FindAndSet();
+        //  cerr << pageTable[i].physicalPage << endl;
         pageTable[i].valid = FALSE;
         pageTable[i].use = FALSE;
         pageTable[i].dirty = FALSE;
@@ -163,7 +163,7 @@ AddrSpace::AddrSpace(char *fileName) {
               PageSize);
         DEBUG(dbgAddr, "phyPage " << pageTable[i].physicalPage);
     }
-
+    pageTable[0].physicalPage = kernel->gPhysPageBitMap->FindAndSet();
     if (noffH.code.size > 0) {
         // for (i = 0; i < numPages; i++)
         //     executable->ReadAt(
@@ -330,6 +330,7 @@ ExceptionType AddrSpace::Translate(unsigned int vaddr, unsigned int *paddr,
 void AddrSpace::AddPage(unsigned int vaddr) {
     unsigned int vpn = vaddr / PageSize;
     pageTable[vpn].valid = TRUE;
+    pageTable[vpn].physicalPage = kernel->gPhysPageBitMap->FindAndSet();
 
     NoffHeader noffH;
     OpenFile *executable = kernel->fileSystem->Open(file);
