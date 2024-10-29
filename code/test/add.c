@@ -19,7 +19,7 @@ int main() {
     PrintNum(result);
     PrintString("\n");
     */
-    int pid = Exec("../test/test_syscall");
+    // int pid = Exec("../test/test_syscall");
     PrintString("Before\n");
     PrintNum(a[100]);
     // Wait2(pid);
