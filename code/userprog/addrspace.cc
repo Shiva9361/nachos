@@ -164,6 +164,9 @@ AddrSpace::AddrSpace(char *fileName) {
         DEBUG(dbgAddr, "phyPage " << pageTable[i].physicalPage);
     }
     pageTable[0].physicalPage = kernel->gPhysPageBitMap->FindAndSet();
+    /**
+     * Loading Only
+     */
     if (noffH.code.size > 0) {
         // for (i = 0; i < numPages; i++)
         //     executable->ReadAt(
@@ -336,17 +339,29 @@ void AddrSpace::AddPage(unsigned int vaddr) {
     OpenFile *executable = kernel->fileSystem->Open(file);
 
     executable->ReadAt((char *)&noffH, sizeof(noffH), 0);
+    /**
+     * Not required for Little Endian Host
+     */
     if ((noffH.noffMagic != NOFFMAGIC) &&
         (WordToHost(noffH.noffMagic) == NOFFMAGIC))
         SwapHeader(&noffH);
     ASSERT(noffH.noffMagic == NOFFMAGIC);
 
-    executable->ReadAt(&(kernel->machine->mainMemory[noffH.code.virtualAddr]) +
-                           (pageTable[vpn].physicalPage * PageSize),
-                       PageSize, noffH.initData.inFileAddr + (vpn * PageSize));
-    executable->ReadAt(&(kernel->machine->mainMemory[noffH.code.virtualAddr]) +
-                           (pageTable[vpn].physicalPage * PageSize),
-                       PageSize, noffH.code.inFileAddr + (vpn * PageSize));
+    if (noffH.initData.virtualAddr <= vaddr &&
+        vaddr <= noffH.initData.virtualAddr + noffH.initData.size) {
+        executable->ReadAt(
+            &(kernel->machine->mainMemory[noffH.initData.virtualAddr]) +
+                (pageTable[vpn].physicalPage * PageSize),
+            PageSize, noffH.initData.inFileAddr + (vpn * PageSize));
+        cout << "Data Loaded" << endl;
+    } else if (noffH.code.virtualAddr <= vaddr &&
+               vaddr <= noffH.code.virtualAddr + noffH.code.size) {
+        executable->ReadAt(
+            &(kernel->machine->mainMemory[noffH.code.virtualAddr]) +
+                (pageTable[vpn].physicalPage * PageSize),
+            PageSize, noffH.code.inFileAddr + (vpn * PageSize));
+        cout << "Code Loaded" << endl;
+    }
 
     cout << "Added page: " << vpn << endl;
 }
