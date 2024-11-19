@@ -1,8 +1,15 @@
 #include "synch.h"
 #include "pcb.h"
+#include <fstream>
+#include <sys/mman.h>
 
 PCB::PCB(int id) {
+    cout << "process_id " << id << endl;
     this->processID = kernel->currentThread->processID;
+    // file.open(std::to_string(id));
+    // int fd = open(std::to_string(id).c_str(), O_RDWR);
+    // swap = static_cast<char*>(
+    //     mmap(nullptr, 128 * 128, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0));
     joinsem = new Semaphore("joinsem", 0);
     exitsem = new Semaphore("exitsem", 0);
     multex = new Semaphore("multex", 1);
@@ -18,6 +25,7 @@ PCB::~PCB() {
         thread->Finish();
         // delete thread;
     }
+    // munmap(swap, 128 * 128);
 
     delete[] filename;
 }
@@ -150,4 +158,54 @@ void PCB::SetFileName(char* fn) { strcpy(filename, fn); }
 char* PCB::GetFileName() {
     // cerr << "get file name" << ' ' << filename << endl;
     return filename;
+}
+
+void PCB::WriteToSwap(int physicalPage, unsigned int vpn) {
+    // Check if the physical page is valid
+    if (physicalPage < 0) {
+        std::cerr << "Invalid physical page" << std::endl;
+        return;
+    }
+
+    // Calculate the offset in the swap file where the page should be written
+    unsigned int offset = vpn * PageSize;  // Assuming PageSize is a constant
+
+    // Check if the swap file pointer is valid
+    if (swap == nullptr) {
+        std::cerr << "Swap file is null!" << std::endl;
+        return;
+    }
+
+    // Write the physical page to the swap file at the calculated offset
+    memcpy(swap + offset,
+           &(kernel->machine->mainMemory[physicalPage * PageSize]), PageSize);
+
+    thread->space->pageTable[vpn].valid = false;
+    swappedPages.insert(vpn);
+    std::cout << "Written physical page " << physicalPage
+              << " to swap file at offset " << offset << std::endl;
+}
+
+void PCB::ReadFromSwap(int physicalPage, unsigned int vpn) {
+    // Check if the physical page is valid
+    if (physicalPage < 0) {
+        std::cerr << "Invalid physical page" << std::endl;
+        return;
+    }
+
+    // Check if the swap file pointer is valid
+    if (swap == nullptr) {
+        std::cerr << "Swap file is null!" << std::endl;
+        return;
+    }
+
+    // Calculate the offset in the swap file where the page should be read from
+    unsigned int offset = vpn * PageSize;  // Assuming PageSize is a constant
+
+    // Read the physical page from the swap file at the calculated offset
+    memcpy(&(kernel->machine->mainMemory[physicalPage * PageSize]),
+           swap + offset, PageSize);
+    swappedPages.erase(vpn);
+    std::cout << "Restored physical page " << physicalPage
+              << " from swap file at offset " << offset << std::endl;
 }

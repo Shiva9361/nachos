@@ -3,18 +3,20 @@
 
 #include "bitmap.h"
 #include "pcb.h"
+#include <unordered_map>
 
-#define MAX_PROCESS 10
+#define MAX_PROCESS 1000
 
 class PTable {
    private:
     Bitmap* bm;
-    PCB* pcb[MAX_PROCESS];
     int psize;
     Semaphore* bmsem;
 
    public:
     PTable(int size);
+    PCB* pcb[MAX_PROCESS];
+    std::unordered_map<int, int> physicalPageToPID;
     ~PTable();
     int ExecUpdate(char* name);
     int ExitUpdate(int ec);

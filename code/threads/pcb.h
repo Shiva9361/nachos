@@ -1,6 +1,7 @@
 #ifndef PCB_H
 #define PCB_H
-
+#include <fstream>
+#include <set>
 class PCB {
    private:
     Semaphore *joinsem;
@@ -38,6 +39,11 @@ class PCB {
 
     void SetFileName(char *fn);
     char *GetFileName();
+    void WriteToSwap(int physicalPage, unsigned int vpn);
+    void ReadFromSwap(int physicalPage, unsigned int vpn);
+    std::ofstream file;
+    char *swap;
+    std::set<unsigned int> swappedPages;
 };
 
 #endif

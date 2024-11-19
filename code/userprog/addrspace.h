@@ -38,7 +38,6 @@ class AddrSpace {
     // is 0 for Read, 1 for Write.
     ExceptionType Translate(unsigned int vaddr, unsigned int *paddr, int mode);
     // void InitRegisters();
-   private:
     char *file;
     TranslationEntry *pageTable;  // Assume linear page table translation
                                   // for now!

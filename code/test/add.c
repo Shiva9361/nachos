@@ -18,9 +18,9 @@ int main() {
     PrintNum(result);
     PrintString("\n");
 
-    pid = ExecP("../test/test_syscall");
+    pid = Exec("../test/test_syscall");
     PrintString("Before\n");
-    Wait2(pid);
+    // Wait2(pid);
     PrintString("Bye\n");
     // PrintString("Hello");
     PrintString("Byeeeeeeeee\n");
