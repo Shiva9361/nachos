@@ -5,7 +5,7 @@
 #include "pcb.h"
 #include <unordered_map>
 
-#define MAX_PROCESS 1000
+#define MAX_PROCESS 100
 
 class PTable {
    private:
@@ -26,6 +26,7 @@ class PTable {
     bool IsExist(int pid);
     void Remove(int pid);
     char* GetFileName(int id);
+    std::unordered_map<int, int> mapping;
 };
 
 #endif

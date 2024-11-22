@@ -1,0 +1,230 @@
+process_id 0
+Page Fault Occured
+PageFault ss
+0 usedHIPage Fault Occured
+PageFault ss
+1 usedHIPage Fault Occured
+PageFault ss
+2 usedPage Fault Occured
+PageFault ss
+3 usedHIPage Fault Occured
+PageFault ss
+Enter#n#(0#<=#n#<=#100):#4 usedHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manEnter#a[HIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo man0HIPage Fault Occured
+PageFault ss
+-1 usedGo manHI]:#Page Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIEnter#a[Page Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo man1]:#HIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIEnter#a[Page Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo man2HIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHI]:#Page Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIEnter#sort#order#(1:#increasing,#2:#decreasing):#Page Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manSorted#array:#HIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo man1 HIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHI2Page Fault Occured
+PageFault ss
+-1 usedGo man HIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHI5Page Fault Occured
+PageFault ss
+-1 usedGo man HIPage Fault Occured
+PageFault ss
+-1 usedGo manHIPage Fault Occured
+PageFault ss
+-1 usedGo manHIMachine halting!
+
+Ticks: total 878745410, idle 878739965, system 4670, user 775
+Disk I/O: reads 0, writes 0
+Console I/O: reads 10, writes 130
+Paging: faults 0
+Network I/O: packets received 0, sent 0
+process_id 0
+0 used1 used2 used3 usedEnter#n#(0#<=#n#<=#100):#4 used-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo manEnter#a[-1 usedGo man-1 usedGo man-1 usedGo man0-1 usedGo man]:#-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo manEnter#a[-1 usedGo man-1 usedGo man-1 usedGo man1]:#-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo manEnter#a[-1 usedGo man-1 usedGo man2-1 usedGo man-1 usedGo man]:#-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo manEnter#a[-1 usedGo man-1 usedGo man3-1 usedGo man-1 usedGo man-1 usedGo man]:#-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo manEnter#sort#order#(1:#increasing,#2:#decreasing):#-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man1 -1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man-1 usedGo man33-1 usedGo man -1 usedGo man55 -1 usedGo man-1 usedGo man-1 usedGo man77-1 usedGo man -1 usedGo manMachine halting!
+
+Ticks: total 816053699, idle 816047427, system 4990, user 1282
+Disk I/O: reads 0, writes 0
+Console I/O: reads 15, writes 133
+Paging: faults 0
+Network I/O: packets received 0, sent 0

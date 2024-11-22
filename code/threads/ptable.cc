@@ -9,6 +9,7 @@ PTable::PTable(int size) {
     }
     bmsem = new Semaphore("bmsem", 1);
     pcb[0] = new PCB(0);
+    pcb[0]->thread = kernel->currentThread;
     pcb[0]->parentID = -1;
 }
 
@@ -137,7 +138,7 @@ int PTable::ExitUpdate(int exitcode) {
     // Gọi JoinRelease để giải phóng tiến trình cha đang đợi nó (nếu có)
     // và ExitWait() để xin tiến trình cha cho phép thoát.
     pcb[id]->JoinRelease();
-    // pcb[id]->ExitWait(); // Wait only works if this is not there
+    pcb[id]->ExitWait();  // Wait only works if this is not there
 
     Remove(id);
     return exitcode;

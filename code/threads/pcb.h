@@ -2,6 +2,7 @@
 #define PCB_H
 #include <fstream>
 #include <set>
+#include <unordered_map>
 class PCB {
    private:
     Semaphore *joinsem;
@@ -10,11 +11,10 @@ class PCB {
 
     int exitcode;
     int numwait;
-
-    Thread *thread;
     char filename[128];
 
    public:
+    Thread *thread;
     int parentID;
     int processID;
     PCB();

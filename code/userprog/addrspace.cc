@@ -139,13 +139,13 @@ AddrSpace::AddrSpace(char *fileName) {
 
     // Check the available memory enough to load new process
     // debug
-    if (numPages > kernel->gPhysPageBitMap->NumClear()) {
-        DEBUG(dbgAddr, "Not enough free space");
-        numPages = 0;
-        delete executable;
-        kernel->addrLock->V();
-        return;
-    }
+    // if (numPages > kernel->gPhysPageBitMap->NumClear()) {
+    //     DEBUG(dbgAddr, "Not enough free space");
+    //     numPages = 0;
+    //     delete executable;
+    //     kernel->addrLock->V();
+    //     return;
+    // }
     DEBUG(dbgAddr, "Initializing address space: " << numPages << ", " << size);
     // first, set up the translation
     pageTable = new TranslationEntry[numPages];
@@ -327,14 +327,20 @@ void AddrSpace::AddPage(unsigned int badVAddr) {
     NoffHeader noffH;
     unsigned int vpn = badVAddr / PageSize;
     int i = kernel->gPhysPageBitMap->FindAndSet();
+    cerr << i << " used";
+
     if (i == -1) {
-        cout << "Go man";
-        kernel->gPhysPageBitMap->Clear(2);
-        pageTable[vpn].physicalPage = kernel->gPhysPageBitMap->FindAndSet();
-        int pid = kernel->pTab->physicalPageToPID[pageTable[vpn].physicalPage];
-        kernel->pTab->pcb[pid]->WriteToSwap(2, vpn);
-        cout << "Go man";
+        int k = rand() % 5;
+        kernel->gPhysPageBitMap->Clear(k);
+        i = kernel->gPhysPageBitMap->FindAndSet();
+        int pid = kernel->pTab->physicalPageToPID[i];
+        kernel->pTab->physicalPageToPID[i] = kernel->currentThread->processID;
+        kernel->pTab->pcb[pid]->WriteToSwap(k, kernel->pTab->mapping[i]);
+    } else {
+        kernel->pTab->physicalPageToPID[i] = kernel->currentThread->processID;
     }
+    pageTable[vpn].physicalPage = i;
+    kernel->pTab->mapping[i] = vpn;
     OpenFile *executable = kernel->fileSystem->Open(file);
 
     executable->ReadAt((char *)&noffH, sizeof(noffH), 0);
@@ -354,6 +360,7 @@ void AddrSpace::AddPage(unsigned int badVAddr) {
     if (noffH.code.size + noffH.code.virtualAddr > badVAddr &&
         badVAddr >= noffH.code.virtualAddr) {
         pageTable[vpn].valid = TRUE;
+
         executable->ReadAt(
             &(kernel->machine->mainMemory[noffH.code.virtualAddr]) +
                 (pageTable[vpn].physicalPage * PageSize),
@@ -363,36 +370,42 @@ void AddrSpace::AddPage(unsigned int badVAddr) {
                (badVAddr >= noffH.initData.virtualAddr) &&
                (noffH.initData.size > 0)) {
         pageTable[vpn].valid = TRUE;
-        // if (kernel->pTab->pcb[kernel->currentThread->processID]
-        //         ->swappedPages.count(vpn)) {
-        // kernel->pTab->pcb[kernel->currentThread->processID]->ReadFromSwap(
-        //     pageTable[vpn].physicalPage, vpn);
-        //} else {
-        executable->ReadAt(
-            &(kernel->machine
-                  ->mainMemory[pageTable[vpn].physicalPage * PageSize]),
-            PageSize, noffH.code.inFileAddr + (vpn * PageSize));
-        //}
+        if (kernel->pTab->pcb[kernel->currentThread->processID]
+                ->swappedPages.count(vpn)) {
+            kernel->pTab->pcb[kernel->currentThread->processID]->ReadFromSwap(
+                pageTable[vpn].physicalPage, vpn);
+        } else {
+            executable->ReadAt(
+                &(kernel->machine
+                      ->mainMemory[pageTable[vpn].physicalPage * PageSize]),
+                PageSize, noffH.code.inFileAddr + (vpn * PageSize));
+        }
     } else if (((noffH.readonlyData.size + noffH.readonlyData.virtualAddr) >
                 badVAddr) &&
                (badVAddr >= noffH.readonlyData.virtualAddr) &&
                (noffH.readonlyData.size > 0)) {
         pageTable[vpn].valid = TRUE;
-        // if (kernel->pTab->pcb[kernel->currentThread->processID]
-        //        ->swappedPages.count(vpn)) {
-        //  kernel->pTab->pcb[kernel->currentThread->processID]->ReadFromSwap(
-        //      pageTable[vpn].physicalPage, vpn);
-        //} else {
-        executable->ReadAt(
-            &(kernel->machine
-                  ->mainMemory[pageTable[vpn].physicalPage * PageSize]),
-            PageSize, noffH.code.inFileAddr + (vpn * PageSize));
-        //}
+        if (kernel->pTab->pcb[kernel->currentThread->processID]
+                ->swappedPages.count(vpn)) {
+            kernel->pTab->pcb[kernel->currentThread->processID]->ReadFromSwap(
+                pageTable[vpn].physicalPage, vpn);
+        } else {
+            executable->ReadAt(
+                &(kernel->machine
+                      ->mainMemory[pageTable[vpn].physicalPage * PageSize]),
+                PageSize, noffH.code.inFileAddr + (vpn * PageSize));
+        }
     } else {
         pageTable[vpn].valid = TRUE;
-        executable->ReadAt(
-            &(kernel->machine
-                  ->mainMemory[pageTable[vpn].physicalPage * PageSize]),
-            PageSize, noffH.code.inFileAddr + (vpn * PageSize));
+        if (kernel->pTab->pcb[kernel->currentThread->processID]
+                ->swappedPages.count(vpn)) {
+            kernel->pTab->pcb[kernel->currentThread->processID]->ReadFromSwap(
+                pageTable[vpn].physicalPage, vpn);
+        } else {
+            executable->ReadAt(
+                &(kernel->machine
+                      ->mainMemory[pageTable[vpn].physicalPage * PageSize]),
+                PageSize, noffH.code.inFileAddr + (vpn * PageSize));
+        }
     }
 }

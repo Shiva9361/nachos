@@ -2,14 +2,13 @@
 #include "pcb.h"
 #include <fstream>
 #include <sys/mman.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <fcntl.h>
 
 PCB::PCB(int id) {
     cout << "process_id " << id << endl;
     this->processID = kernel->currentThread->processID;
-    // file.open(std::to_string(id));
-    // int fd = open(std::to_string(id).c_str(), O_RDWR);
-    // swap = static_cast<char*>(
-    //     mmap(nullptr, 128 * 128, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0));
     joinsem = new Semaphore("joinsem", 0);
     exitsem = new Semaphore("exitsem", 0);
     multex = new Semaphore("multex", 1);
@@ -162,6 +161,7 @@ char* PCB::GetFileName() {
 
 void PCB::WriteToSwap(int physicalPage, unsigned int vpn) {
     // Check if the physical page is valid
+    if (!thread) return;
     if (physicalPage < 0) {
         std::cerr << "Invalid physical page" << std::endl;
         return;
@@ -169,21 +169,30 @@ void PCB::WriteToSwap(int physicalPage, unsigned int vpn) {
 
     // Calculate the offset in the swap file where the page should be written
     unsigned int offset = vpn * PageSize;  // Assuming PageSize is a constant
+    char buffer[50];  // Allocate enough space for the string
+    sprintf(buffer, "id_%d", this->thread->processID);  // Format the string
+    char* result = strdup(buffer);
 
     // Check if the swap file pointer is valid
-    if (swap == nullptr) {
-        std::cerr << "Swap file is null!" << std::endl;
-        return;
+    FILE* swapFile = fopen(result,
+                           "r+");  // Open in read/write binary mode
+    if (swapFile == NULL) {
+        swapFile = fopen(result, "w+");
+        fclose(swapFile);
+        swapFile = fopen(result, "r+");
     }
-
-    // Write the physical page to the swap file at the calculated offset
-    memcpy(swap + offset,
-           &(kernel->machine->mainMemory[physicalPage * PageSize]), PageSize);
-
+    if (swapFile != NULL) {
+        fseek(swapFile, offset, SEEK_SET);  // Move to the specified offset
+        fwrite(&(kernel->machine->mainMemory[physicalPage * PageSize]), 1,
+               PageSize, swapFile);
+        fclose(swapFile);
+    } else {
+        perror("File opening failed");
+    }
     thread->space->pageTable[vpn].valid = false;
     swappedPages.insert(vpn);
-    std::cout << "Written physical page " << physicalPage
-              << " to swap file at offset " << offset << std::endl;
+    std::cerr << "Written physical page " << physicalPage
+              << " to swap file at vpn " << vpn << std::endl;
 }
 
 void PCB::ReadFromSwap(int physicalPage, unsigned int vpn) {
@@ -192,20 +201,19 @@ void PCB::ReadFromSwap(int physicalPage, unsigned int vpn) {
         std::cerr << "Invalid physical page" << std::endl;
         return;
     }
-
+    char buffer[50];  // Allocate enough space for the string
+    sprintf(buffer, "id_%d", this->thread->processID);
+    char* result = strdup(buffer);
     // Check if the swap file pointer is valid
-    if (swap == nullptr) {
-        std::cerr << "Swap file is null!" << std::endl;
-        return;
-    }
+    FILE* swapFile = fopen(result, "r+");
 
     // Calculate the offset in the swap file where the page should be read from
     unsigned int offset = vpn * PageSize;  // Assuming PageSize is a constant
-
+    fseek(swapFile, offset, SEEK_SET);
     // Read the physical page from the swap file at the calculated offset
-    memcpy(&(kernel->machine->mainMemory[physicalPage * PageSize]),
-           swap + offset, PageSize);
+    fread(&(kernel->machine->mainMemory[physicalPage * PageSize]), 1, PageSize,
+          swapFile);
     swappedPages.erase(vpn);
-    std::cout << "Restored physical page " << physicalPage
-              << " from swap file at offset " << offset << std::endl;
+    std::cerr << "Restored physical page " << physicalPage
+              << " from swap file at vpn " << vpn << std::endl;
 }
