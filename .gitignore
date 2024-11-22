@@ -9,5 +9,6 @@ code/test/*
 !code/test/script
 !code/test/Makefile
 !code/test/Makefile.dep
+!code/test/*.S
 code/DISK_0
 .vscode/

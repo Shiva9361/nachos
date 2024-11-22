@@ -13,5 +13,4 @@ int main() {
         pid = Exec("../test/test_syscall");
     }
     PrintString("Hello man");
-    Sleep(10000000);
 }
