@@ -18,15 +18,15 @@ int main() {
     PrintNum(result);
     PrintString("\n");
 
-    pid = ExecP("../test/test_syscall");
+    // pid = ExecP("../test/test_syscall");
     PrintString("Before\n");
-    Wait2(pid);
+    // Wait2(pid);
     PrintString("Bye\n");
     // PrintString("Hello");
     PrintString("Byeeeeeeeee\n");
     // for (i = 0; i < 1500000; i++);
-    Sleep(10000000);
+    // Sleep(10000000);
     PrintString("Byeeee from child\n");
-    Exit(0);
+    // Exit(0);
     /* not reached */
 }

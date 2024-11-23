@@ -454,7 +454,7 @@ void ExceptionHandler(ExceptionType which) {
             DEBUG(dbgSys, "Switch to system mode\n");
             break;
         case PageFaultException: {
-            cout << "Page Fault Occured" << endl;
+            cerr << "Page Fault Occured" << endl;
             int vaddr = kernel->machine->ReadRegister(39);
             kernel->currentThread->space->AddPage(vaddr);
             return;

@@ -9,7 +9,8 @@
 int main() {
     int pid, i;
     PrintString("In exec\n");
-    pid = Exec("../test/add");
+    pid = ExecP("../test/add", 1);
+    ExecP("../test/random", 2);
     if (pid < 0) {
         Write("Exec failed: ", 14, stdout);
         PrintNum(pid);

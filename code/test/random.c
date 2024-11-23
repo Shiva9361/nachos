@@ -8,4 +8,5 @@ int main() {
     int result;
     result = RandomNum();
     PrintNum(result);
+    PrintString("Rand done");
 }

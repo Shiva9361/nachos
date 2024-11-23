@@ -347,5 +347,5 @@ void AddrSpace::AddPage(unsigned int vaddr) {
                            (pageTable[vpn].physicalPage * PageSize),
                        PageSize, noffH.code.inFileAddr + (vpn * PageSize));
 
-    cout << "Added page: " << vpn << endl;
+    cerr << "Added page: " << vpn << endl;
 }
