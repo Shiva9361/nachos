@@ -18,7 +18,7 @@ int main() {
     PrintNum(result);
     PrintString("\n");
 
-    pid = Exec("../test/test_syscall");
+    // pid = Exec("../test/test_syscall");
     PrintString("Before\n");
     // Wait2(pid);
     PrintString("Bye\n");
@@ -27,6 +27,6 @@ int main() {
     // for (i = 0; i < 1500000; i++);
     Sleep(10000000);
     PrintString("Byeeee from child\n");
-    Exit(0);
+    // Exit(0);
     /* not reached */
 }

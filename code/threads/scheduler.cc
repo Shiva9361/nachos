@@ -78,8 +78,8 @@ Thread *Scheduler::FindNextToRun() {
     if (readyList->IsEmpty()) {
         return NULL;
     } else {
-        readyList->RemoveFront();
         Thread *t = readyQueue.top();
+        readyList->Remove(t);
         readyQueue.pop();
         return t;
     }
