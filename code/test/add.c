@@ -6,27 +6,24 @@
  */
 
 #include "syscall.h"
-
+char b[10000];
 int main() {
     int result;
     int i;
     int pid;
+    char a[] = "Hello beta\n";
 
-    result = Mul(41, 57);
-    PrintString("Hello World ");
-    PrintString("\n");
+    pid = Exec("../test/num_io");
+    i = SendMsg(pid, a);
+    result = SendMsg(3, a);
+    result = i;
+    PrintNum(i);
     PrintNum(result);
     PrintString("\n");
-
-    // pid = Exec("../test/test_syscall");
-    PrintString("Before\n");
-    // Wait2(pid);
-    PrintString("Bye\n");
-    // PrintString("Hello");
-    PrintString("Byeeeeeeeee\n");
-    // for (i = 0; i < 1500000; i++);
-    Sleep(10000000);
-    PrintString("Byeeee from child\n");
+    // i = RecvMsg(b);
+    PrintNum(i);
+    PrintString("\n");
+    PrintString(b);
     // Exit(0);
     /* not reached */
 }

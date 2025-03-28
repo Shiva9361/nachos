@@ -81,6 +81,7 @@ Thread *Scheduler::FindNextToRun() {
         Thread *t = readyQueue.top();
         readyList->Remove(t);
         readyQueue.pop();
+        // Print();
         return t;
     }
 }

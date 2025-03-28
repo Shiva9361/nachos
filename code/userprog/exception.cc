@@ -443,6 +443,36 @@ void handle_SC_GetPid() {
     return move_program_counter();
 }
 
+void handle_SC_SendMsg() {
+    int pid = kernel->machine->ReadRegister(4);
+    int memPtr = kernel->machine->ReadRegister(5);  // read address of C-string
+    char* buffer = stringUser2System(memPtr);
+    kernel->machine->WriteRegister(2, SysSendMsg(pid, buffer));
+    return move_program_counter();
+}
+
+void handle_SC_RecvMsg() {
+    int memPtr = kernel->machine->ReadRegister(4);  // read address of C-string
+    int length =
+        strlen(kernel->currentThread->buffer);  // read length of C-string
+    if (length == 0) {
+        kernel->currentThread->setStatus(BLOCKED);
+        kernel->currentThread->Yield();
+        // cout << "Yielding" << endl;
+        return;
+    }
+    if (length > MAX_READ_STRING_LENGTH) {  // avoid allocating large memory
+        DEBUG(dbgSys, "String length exceeds " << MAX_READ_STRING_LENGTH);
+        SysHalt();
+    }
+    char* buffer = kernel->currentThread->buffer;
+    StringSys2User(buffer, memPtr);
+    cout << "length" << length;
+    kernel->machine->WriteRegister(2, length);
+    delete[] buffer;
+    return move_program_counter();
+}
+
 void ExceptionHandler(ExceptionType which) {
     int type = kernel->machine->ReadRegister(2);
 
@@ -474,6 +504,10 @@ void ExceptionHandler(ExceptionType which) {
             switch (type) {
                 case SC_Halt:
                     return handle_SC_Halt();
+                case SC_SendMsg:
+                    return handle_SC_SendMsg();
+                case SC_RecvMsg:
+                    return handle_SC_RecvMsg();
                 case SC_Wait2:
                     return handle_SC_Wait2();
                 case SC_Sleep:

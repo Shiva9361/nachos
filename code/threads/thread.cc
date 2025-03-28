@@ -49,6 +49,7 @@ Thread::Thread(char *threadName, bool _has_dynamic_name /*=false*/,
     }
     space = NULL;
     sleepTime = 0;
+    buffer = (char *)malloc(sizeof(char) * 1000);
 }
 
 //----------------------------------------------------------------------

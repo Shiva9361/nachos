@@ -58,6 +58,22 @@ Wait2:
 	j	$31
 	.end Wait2
 
+	.globl SendMsg
+	.ent	SendMsg
+SendMsg:
+	addiu $2,$0,SC_SendMsg
+	syscall
+	j	$31
+	.end SendMsg
+
+	.globl RecvMsg
+	.ent	RecvMsg
+RecvMsg:
+	addiu $2,$0,SC_RecvMsg
+	syscall
+	j	$31
+	.end RecvMsg
+
 	.globl Add
 	.ent	Add
 Add:

@@ -126,7 +126,7 @@ AddrSpace::AddrSpace(char *fileName) {
     kernel->addrLock->P();
     // how big is address space?
     size = noffH.code.size + noffH.initData.size + noffH.uninitData.size +
-           noffH.readonlyData.size +
+           //    noffH.readonlyData.size +
            UserStackSize;  // we need to increase the size
                            // to leave room for the stack
     numPages = divRoundUp(size, PageSize);
@@ -137,15 +137,15 @@ AddrSpace::AddrSpace(char *fileName) {
                                        // at least until we have
                                        // virtual memory
 
-    // Check the available memory enough to load new process
-    // debug
-    // if (numPages > kernel->gPhysPageBitMap->NumClear()) {
-    //     DEBUG(dbgAddr, "Not enough free space");
-    //     numPages = 0;
-    //     delete executable;
-    //     kernel->addrLock->V();
-    //     return;
-    // }
+    // Check the available memory enough to
+    // load new process debug
+    if (numPages > kernel->gPhysPageBitMap->NumClear()) {
+        DEBUG(dbgAddr, "Not enough free space");
+        numPages = 0;
+        delete executable;
+        kernel->addrLock->V();
+        return;
+    }
     DEBUG(dbgAddr, "Initializing address space: " << numPages << ", " << size);
     // first, set up the translation
     pageTable = new TranslationEntry[numPages];
@@ -154,18 +154,18 @@ AddrSpace::AddrSpace(char *fileName) {
 
         // commented by me
 
-        //  pageTable[i].physicalPage = kernel->gPhysPageBitMap->FindAndSet();
+        pageTable[i].physicalPage = kernel->gPhysPageBitMap->FindAndSet();
         // cerr << pageTable[i].physicalPage << endl;
-        pageTable[i].valid = FALSE;  // made change to false by me
+        pageTable[i].valid = TRUE;  // made change to false by me
         pageTable[i].use = FALSE;
         pageTable[i].dirty = FALSE;
         pageTable[i].readOnly = FALSE;  // if the code segment was entirely on
         // a separate page, we could set its
         // pages to be read-only
         // xóa các trang này trên memory
-        // bzero(&(kernel->machine
-        //        ->mainMemory[pageTable[i].physicalPage * PageSize]),
-        //    PageSize);
+        bzero(&(kernel->machine
+                    ->mainMemory[pageTable[i].physicalPage * PageSize]),
+              PageSize);
         DEBUG(dbgAddr, "phyPage " << pageTable[i].physicalPage);
     }
     //    printf("%d\n",noffH.code.size);
@@ -175,21 +175,21 @@ AddrSpace::AddrSpace(char *fileName) {
 
     // commented by me
 
-    // if (noffH.code.size > 0) {
-    //     for (i = 0; i < numPages; i++) // here numPages was replaced with 1
-    //         executable->ReadAt(
-    //             &(kernel->machine->mainMemory[noffH.code.virtualAddr]) +
-    //                 (pageTable[i].physicalPage * PageSize),
-    //             PageSize, noffH.code.inFileAddr + (i * PageSize));
-    // }
+    if (noffH.code.size > 0) {
+        for (i = 0; i < numPages; i++)  // here numPages was replaced with 1
+            executable->ReadAt(
+                &(kernel->machine->mainMemory[noffH.code.virtualAddr]) +
+                    (pageTable[i].physicalPage * PageSize),
+                PageSize, noffH.code.inFileAddr + (i * PageSize));
+    }
 
-    // if (noffH.initData.size > 0) {
-    //     for (i = 0; i < numPages; i++) // here numPages was replaced with 1
-    //         executable->ReadAt(
-    //             &(kernel->machine->mainMemory[noffH.initData.virtualAddr]) +
-    //                 (pageTable[i].physicalPage * PageSize),
-    //             PageSize, noffH.initData.inFileAddr + (i * PageSize));
-    // }
+    if (noffH.initData.size > 0) {
+        for (i = 0; i < numPages; i++)  // here numPages was replaced with 1
+            executable->ReadAt(
+                &(kernel->machine->mainMemory[noffH.initData.virtualAddr]) +
+                    (pageTable[i].physicalPage * PageSize),
+                PageSize, noffH.initData.inFileAddr + (i * PageSize));
+    }
 
     kernel->addrLock->V();
     delete executable;

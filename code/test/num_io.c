@@ -7,4 +7,13 @@
 
 #include "syscall.h"
 
-int main() { PrintNum(ReadNum()); }
+int main() {
+    char b[1000];
+    char c[] = "Hi sir\n";
+    int t = RecvMsg(b);
+
+    PrintNum(t);
+    // t = SendMsg(0, c);
+    PrintString(b);
+    PrintNum(t);
+}

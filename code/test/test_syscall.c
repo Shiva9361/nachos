@@ -5,5 +5,6 @@
 #include "syscall.h"
 int main() {
     int result;
+    Sleep(10000000);
     PrintString("Helllo");
 }

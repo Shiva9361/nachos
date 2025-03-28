@@ -30,6 +30,23 @@ void SysWait2(int pid) {
     kernel->scheduler->waitForProcess(pid);
     kernel->interrupt->SetLevel(oldlevel);
 }
+
+int SysSendMsg(int pid, char* buf) {
+    if (pid < 0) return -1;
+    IntStatus oldlevel = kernel->interrupt->SetLevel(IntOff);
+    if (!kernel->pTab->pcb[pid]) return -1;
+    strcpy(kernel->pTab->pcb[pid]->thread->buffer, buf);
+    kernel->interrupt->SetLevel(oldlevel);
+    return 1;
+}
+
+void SysRecvMsg(char* buf) {
+    IntStatus oldlevel = kernel->interrupt->SetLevel(IntOff);
+    strcpy(buf,
+           kernel->pTab->pcb[kernel->currentThread->processID]->thread->buffer);
+    kernel->interrupt->SetLevel(oldlevel);
+}
+
 void SysSleep(int time) {
     IntStatus oldlevel = kernel->interrupt->SetLevel(IntOff);
     kernel->scheduler->waitUntil(time);
@@ -145,10 +162,7 @@ char* SysReadString(int length) {
 
 void SysPrintString(char* buffer, int length) {
     for (int i = 0; i < length; i++) {
-        if (buffer[i] == ' ')
-            kernel->synchConsoleOut->PutChar('#');
-        else
-            kernel->synchConsoleOut->PutChar(buffer[i]);
+        kernel->synchConsoleOut->PutChar(buffer[i]);
     }
 }
 

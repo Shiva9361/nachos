@@ -53,6 +53,8 @@
 #define SC_Sleep 56
 #define SC_Wait2 57
 #define SC_ExecP 58
+#define SC_SendMsg 59
+#define SC_RecvMsg 60
 #ifndef IN_ASM
 
 /* The system call interface.  These are the operations the Nachos
@@ -88,6 +90,8 @@ char ReadChar();
 void PrintChar(char character);
 
 int RandomNum();
+int SendMsg(int pid, char *buf);
+int RecvMsg(char *buf);
 
 void ReadString(char *buffer, int length);
 

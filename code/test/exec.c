@@ -9,8 +9,8 @@ int a[999];
 int main() {
     int pid, i;
     a[1];
-    Exec("../test/test_syscall");
-    pid = Exec("../test/add");
+    pid = Exec("../test/test_syscall");
     PrintString("Hello man");
     Wait2(pid);
+    // Join(pid);
 }
